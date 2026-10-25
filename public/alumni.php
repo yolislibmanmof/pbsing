@@ -33,9 +33,6 @@ $totalSectors = count($sectors);
 $totalYears = count($years);
 ?>
 
-<!-- Skip Link -->
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
 <!-- JSON-LD for Alumni -->
 <script type="application/ld+json">
 {

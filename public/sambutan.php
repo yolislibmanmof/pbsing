@@ -91,13 +91,15 @@ if ($s && !empty($s['isi'])) {
 
 <!-- ============ PAGE HERO ============ -->
 <section class="page-hero samb-hero">
-    <div class="samb-hero-content reveal-up">
-        <span class="samb-hero-badge text-reveal">
+    <div class="samb-hero-content" style="opacity:1 !important; transform:none !important;">
+        <span class="samb-hero-badge" style="opacity:1 !important; transform:none !important;">
             <i class="fa-solid fa-quote-right" aria-hidden="true"></i>
             <span data-i18n="leadership_message">PESAN PIMPINAN</span>
         </span>
-        <h1 class="samb-hero-title text-reveal" data-i18n="page_title">Sambutan Ketua Program Studi</h1>
-        <p class="samb-hero-subtitle fade-in-up" data-i18n="page_subtitle">
+        <h1 class="samb-hero-title" style="opacity:1 !important; transform:none !important; display:block !important;">
+            Sambutan Ketua Program Studi
+        </h1>
+        <p class="samb-hero-subtitle" style="opacity:1 !important; transform:none !important;">
             Pesan hangat dari pimpinan Program Studi Bahasa dan Sastra Inggris.
         </p>
         <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -1463,6 +1465,39 @@ if ($s && !empty($s['isi'])) {
 }
 .fade-in-up.visible { opacity: 1; transform: translateY(0); }
 
+/* Fallback: Tampilkan judul jika reveal gagal */
+.samb-hero-title {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+}
+
+/* Animasi masuk yang lebih smooth */
+@keyframes titleFadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+.samb-hero-title {
+    animation: titleFadeIn 1s ease-out 0.5s both;
+}
+
+.samb-hero-content {
+    z-index: 10 !important;
+    position: relative;
+}
+
+.samb-hero-title {
+    position: relative;
+    z-index: 11;
+}
+
 /* ===== PRINT STYLES ===== */
 @media print {
     .page-hero, .samb-cta-section, .samb-share-modal,
@@ -1831,5 +1866,4 @@ document.addEventListener('keydown', function (e) {
     applyTranslations();
 })();
 </script>
-
 <?php require_once '../includes/public_footer.php'; ?>

@@ -54,10 +54,6 @@ foreach ($rps as $r) {
     $rpsBySem[$sem][] = $r;
 }
 ?>
-
-<!-- Skip Link -->
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
 <!-- JSON-LD for DigitalDocument -->
 <script type="application/ld+json">
 {

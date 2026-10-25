@@ -93,13 +93,13 @@ $level_labels = [
 
 <!-- ============ PAGE HERO ============ -->
 <section class="page-hero org-hero">
-    <div class="org-hero-content reveal-up">
-        <span class="org-hero-badge text-reveal">
+    <div class="org-hero-content" style="opacity:1 !important; transform:none !important;">
+        <span class="org-hero-badge" style="opacity:1 !important; transform:none !important;">
             <i class="fa-solid fa-sitemap" aria-hidden="true"></i>
             <span data-i18n="team_structure">TIM PENGURUS</span>
         </span>
-        <h1 class="org-hero-title text-reveal" data-i18n="page_title">Struktur Organisasi</h1>
-        <p class="org-hero-subtitle fade-in-up" data-i18n="page_subtitle">
+        <h1 class="org-hero-title" style="opacity:1 !important; transform:none !important; display:block !important;" data-i18n="page_title">Struktur Organisasi</h1>
+        <p class="org-hero-subtitle" style="opacity:1 !important; transform:none !important;" data-i18n="page_subtitle">
             Tata kelola program studi yang profesional, transparan, dan kolaboratif.
         </p>
         <nav class="breadcrumb" aria-label="Breadcrumb">

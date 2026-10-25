@@ -22,9 +22,6 @@ $total_years = $target_year - 2024; // asumsi basis 2024
 $progress_percent = $total_years > 0 ? round((($total_years - $years_remaining) / $total_years) * 100) : 0;
 ?>
 
-<!-- Skip Link -->
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
 <!-- Reading Progress Bar (konsisten dengan homepage) -->
 <div class="reading-progress" id="readingProgress" aria-hidden="true">
     <div class="reading-progress-fill"></div>

@@ -8,9 +8,9 @@ $initial = strtoupper(substr($admin_name, 0, 1));
 
 // Fetch notification counts
 $notifCounts = [
-    'draft' => $pdo->query("SELECT COUNT(*) FROM berita WHERE status = 0")->fetchColumn() ?? 0,
-    'login' => $pdo->query("SELECT COUNT(*) FROM login_attempts WHERE attempted_at > DATE_SUB(NOW(), INTERVAL 24 HOUR)")->fetchColumn() ?? 0,
-    'agenda' => $pdo->query("SELECT COUNT(*) FROM agenda WHERE tanggal_mulai >= CURDATE() AND tanggal_mulai <= DATE_ADD(CURDATE(), INTERVAL 7 DAY) AND aktif = 1")->fetchColumn() ?? 0,
+    'draft' => (int)$pdo->query("SELECT COUNT(*) FROM berita WHERE status = 'draft'")->fetchColumn(),
+    'login' => (int)$pdo->query("SELECT COUNT(*) FROM login_attempts WHERE attempted_at > DATE_SUB(NOW(), INTERVAL 24 HOUR)")->fetchColumn(),
+    'agenda' => (int)$pdo->query("SELECT COUNT(*) FROM agenda WHERE tanggal_mulai >= CURDATE() AND tanggal_mulai <= DATE_ADD(CURDATE(), INTERVAL 7 DAY) AND status = 'akan_datang'")->fetchColumn(),
 ];
 $totalNotif = array_sum($notifCounts);
 ?>
@@ -601,6 +601,16 @@ $totalNotif = array_sum($notifCounts);
             <a href="kelola_visimisi.php" class="<?= $current_page == 'visimisi' ? 'active' : '' ?>"><i class="fa-solid fa-bullseye"></i> <span>Visi & Misi</span></a>
             <a href="kelola_sambutan.php" class="<?= $current_page == 'sambutan' ? 'active' : '' ?>"><i class="fa-solid fa-user-tie"></i> <span>Sambutan Kaprodi</span></a>
 
+            <div class="nav-section-title">Data Prodi</div>
+            <a href="kelola_dokumen.php" class="<?= $current_page == 'dokumen' ? 'active' : '' ?>"><i class="fa-solid fa-folder-open"></i> <span>Dokumen</span></a>
+            <a href="kelola_faq.php" class="<?= $current_page == 'faq' ? 'active' : '' ?>"><i class="fa-solid fa-circle-question"></i> <span>FAQ</span></a>
+            <a href="kelola_pengumuman.php" class="<?= $current_page == 'pengumuman' ? 'active' : '' ?>"><i class="fa-solid fa-bullhorn"></i> <span>Pengumuman</span></a>
+            <a href="kelola_fasilitas.php" class="<?= $current_page == 'fasilitas' ? 'active' : '' ?>"><i class="fa-solid fa-building"></i> <span>Fasilitas</span></a>
+            <a href="kelola_prestasi.php" class="<?= $current_page == 'prestasi' ? 'active' : '' ?>"><i class="fa-solid fa-trophy"></i> <span>Prestasi</span></a>
+            <a href="kelola_mitra.php" class="<?= $current_page == 'mitra' ? 'active' : '' ?>"><i class="fa-solid fa-handshake"></i> <span>Mitra</span></a>
+            <a href="kelola_karir.php" class="<?= $current_page == 'karir' ? 'active' : '' ?>"><i class="fa-solid fa-briefcase"></i> <span>Prospek Karir</span></a>
+            <a href="kelola_konsentrasi.php" class="<?= $current_page == 'konsentrasi' ? 'active' : '' ?>"><i class="fa-solid fa-layer-group"></i> <span>Konsentrasi</span></a>
+
             <div class="nav-section-title">Sistem</div>
             <a href="kelola_users.php" class="<?= $current_page == 'users' ? 'active' : '' ?>"><i class="fa-solid fa-users-gear"></i> <span>User Management</span></a>
             <a href="settings.php" class="<?= $current_page == 'settings' ? 'active' : '' ?>"><i class="fa-solid fa-gear"></i> <span>Pengaturan</span></a>
@@ -763,6 +773,14 @@ $totalNotif = array_sum($notifCounts);
             { label: 'Visi & Misi', icon: 'fa-bullseye', link: 'kelola_visimisi.php' },
             { label: 'Sambutan Kaprodi', icon: 'fa-user-tie', link: 'kelola_sambutan.php' },
             { label: 'Slider / Hero', icon: 'fa-image', link: 'kelola_slider.php' },
+            { label: 'Dokumen', icon: 'fa-folder-open', link: 'kelola_dokumen.php' },
+            { label: 'FAQ', icon: 'fa-circle-question', link: 'kelola_faq.php' },
+            { label: 'Pengumuman', icon: 'fa-bullhorn', link: 'kelola_pengumuman.php' },
+            { label: 'Fasilitas', icon: 'fa-building', link: 'kelola_fasilitas.php' },
+            { label: 'Prestasi', icon: 'fa-trophy', link: 'kelola_prestasi.php' },
+            { label: 'Mitra', icon: 'fa-handshake', link: 'kelola_mitra.php' },
+            { label: 'Prospek Karir', icon: 'fa-briefcase', link: 'kelola_karir.php' },
+            { label: 'Konsentrasi', icon: 'fa-layer-group', link: 'kelola_konsentrasi.php' },
         ]},
         { group: 'Aksi Cepat', items: [
             { label: 'Tambah Berita Baru', icon: 'fa-plus', link: 'kelola_berita.php?action=add', hint: 'Tulis artikel' },
@@ -772,6 +790,11 @@ $totalNotif = array_sum($notifCounts);
             { label: 'Upload Dokumen', icon: 'fa-upload', link: 'kelola_unduh.php?action=add&tab=unduh', hint: 'File akademik' },
             { label: 'Tambah RPS', icon: 'fa-book-open', link: 'kelola_unduh.php?action=add&tab=rps', hint: 'Rencana kuliah' },
             { label: 'Tambah Publikasi', icon: 'fa-flask', link: 'kelola_publikasi.php?action=add', hint: 'Karya ilmiah' },
+            { label: 'Upload Dokumen', icon: 'fa-folder-open', link: 'kelola_dokumen.php?action=add', hint: 'File akademik' },
+            { label: 'Buat Pengumuman', icon: 'fa-bullhorn', link: 'kelola_pengumuman.php?action=add', hint: 'Info penting' },
+            { label: 'Tambah FAQ', icon: 'fa-circle-question', link: 'kelola_faq.php?action=add', hint: 'Pertanyaan umum' },
+            { label: 'Tambah Prestasi', icon: 'fa-trophy', link: 'kelola_prestasi.php?action=add', hint: 'Pencapaian' },
+            { label: 'Tambah Mitra', icon: 'fa-handshake', link: 'kelola_mitra.php?action=add', hint: 'Partner' },
         ]},
         { group: 'Sistem', items: [
             { label: 'Lihat Website', icon: 'fa-globe', link: '../', hint: 'Buka di tab baru', newTab: true },

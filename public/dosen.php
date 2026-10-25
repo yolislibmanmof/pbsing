@@ -65,10 +65,6 @@ foreach ($dosen as $d) {
     $jsonLdPersons[] = $person;
 }
 ?>
-
-<!-- Skip Link -->
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
 <!-- JSON-LD for Person (Multiple) -->
 <script type="application/ld+json">
 <?= json_encode($jsonLdPersons, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) ?>

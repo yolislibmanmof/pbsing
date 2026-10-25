@@ -47,9 +47,6 @@ if (!empty($galeri)) {
 }
 ?>
 
-<!-- Skip Link -->
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
 <!-- JSON-LD for ImageGallery -->
 <script type="application/ld+json">
 {

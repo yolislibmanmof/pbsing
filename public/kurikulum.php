@@ -35,9 +35,6 @@ foreach ($mk as $m) {
 }
 ?>
 
-<!-- Skip Link -->
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
 <!-- JSON-LD for Course / Curriculum -->
 <script type="application/ld+json">
 {
