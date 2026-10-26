@@ -86,7 +86,7 @@ function is_menu_active($menu, $current_page, $children = []) {
                 <circle class="pl-orbit" cx="70" cy="12" r="4"/>
             </svg>
         </div>
-        <div class="pl-title">PBSI<span>UMMAUMERE</span></div>
+        <div class="pl-title">PBSING<span>UNIMOF</span></div>
         <div class="pl-sub">PROGRAM STUDI BAHASA &amp; SASTRA INGGRIS</div>
         <div class="pl-track">
             <div class="pl-fill"></div>
@@ -399,12 +399,12 @@ html.pl-locked, html.pl-locked body { overflow: hidden !important; }
 ============================================================= -->
 <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
     <div class="nav-container">
-        <a href="<?= PUBLIC_URL ?>index.php" class="nav-brand" aria-label="PBSI UMMaumere - Beranda">
+        <a href="<?= PUBLIC_URL ?>index.php" class="nav-brand" aria-label="PBSING UNIMOF - Beranda">
             <?php if (!empty($setting['logo'])): ?>
                 <img src="<?= BASE_URL . sanitize($setting['logo']) ?>" alt="<?= sanitize($setting['site_name']) ?>" style="height: 48px; width: auto; object-fit: contain;">
             <?php else: ?>
                 <span class="brand-icon"><i class="fa-solid fa-graduation-cap"></i></span>
-                <span class="brand-text">PBSI <em>UMMaumere</em></span>
+                <span class="brand-text">PBSING <em>UNIMOF</em></span>
             <?php endif; ?>
         </a>
 

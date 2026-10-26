@@ -41,7 +41,7 @@ $current_year = date('Y');
                     </div>
                     <div>
                         <h3><?= $current_lang === 'en' ? 'Subscribe to Our Newsletter' : 'Berlangganan Newsletter' ?></h3>
-                        <p><?= $current_lang === 'en' ? 'Get the latest academic news and events delivered straight to your inbox.' : 'Dapatkan info terbaru seputar akademik dan kegiatan PBSI langsung di inbox Anda.' ?></p>
+                        <p><?= $current_lang === 'en' ? 'Get the latest academic news and events delivered straight to your inbox.' : 'Dapatkan info terbaru seputar akademik dan kegiatan PBSING langsung di inbox Anda.' ?></p>
                     </div>
                 </div>
                 <form class="newsletter-form" id="newsletterForm" novalidate>
@@ -67,7 +67,7 @@ $current_year = date('Y');
                             <i class="fa-solid fa-graduation-cap"></i>
                         </span>
                         <div>
-                            <h3>PBSI <em>UMMaumere</em></h3>
+                            <h3>PBSING <em>UNIMOF</em></h3>
                             <span class="footer-prodi"><?= sanitize($setting['prodi_name'] ?? '') ?></span>
                         </div>
                     </div>

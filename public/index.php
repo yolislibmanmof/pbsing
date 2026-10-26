@@ -25,7 +25,7 @@ if (!function_exists('img_url')) {
              . '<circle cx="450" cy="250" r="64" fill="rgba(255,255,255,.10)"/>'
              . '<path d="M450 214 l52 22 -52 22 -52 -22 z" fill="rgba(255,255,255,.55)"/>'
              . '<path d="M424 246 v20 c0 10 12 16 26 16 s26 -6 26 -16 v-20" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="4" stroke-linecap="round"/>'
-             . '<text x="450" y="380" font-family="Arial,sans-serif" font-size="24" letter-spacing="8" fill="rgba(255,255,255,.4)" text-anchor="middle">PBSI UMMaumere</text>'
+             . '<text x="450" y="380" font-family="Arial,sans-serif" font-size="24" letter-spacing="8" fill="rgba(255,255,255,.4)" text-anchor="middle">PBSING UNIMOF</text>'
              . '</svg>';
         return 'data:image/svg+xml;utf8,' . rawurlencode($svg);
     }
@@ -82,7 +82,7 @@ $current_lang = $_COOKIE['pbsi_lang'] ?? 'id';
 {
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
-  "name": "<?= sanitize($setting['site_name'] ?? 'PBSI UMMaumere') ?>",
+  "name": "<?= sanitize($setting['site_name'] ?? 'PBSING UNIMOF') ?>",
   "alternateName": "Program Studi Bahasa dan Sastra Inggris",
   "url": "<?= PUBLIC_URL ?>",
   "description": "<?= sanitize($setting['site_tagline'] ?? 'Pusat Keunggulan Bahasa & Sastra di Indonesia Timur') ?>",
@@ -113,7 +113,7 @@ $current_lang = $_COOKIE['pbsi_lang'] ?? 'id';
         <div class="hx-slide-video"></div>
         <div class="hx-slide-content">
             <span class="hx-badge"><i class="fa-solid fa-star"></i> <span data-i18n="welcome">SELAMAT DATANG</span></span>
-            <h1 class="hx-title"><?= sanitize($setting['site_name'] ?? 'PBSI UMMaumere') ?></h1>
+            <h1 class="hx-title"><?= sanitize($setting['site_name'] ?? 'PBSING UNIMOF') ?></h1>
             <p class="hx-subtitle"><?= sanitize($setting['site_tagline'] ?? 'Pusat Keunggulan Bahasa & Sastra di Indonesia Timur') ?></p>
             <a href="<?= PUBLIC_URL ?>kontak.php" class="hx-cta magnetic-btn" data-cursor="pointer">
                 <span data-i18n="apply_now">Daftar Sekarang</span>
@@ -252,7 +252,7 @@ $current_lang = $_COOKIE['pbsi_lang'] ?? 'id';
                 <i class="fa-solid fa-gem" aria-hidden="true"></i>
                 <span data-i18n="our_strength">KEUNGGULAN KAMI</span>
             </span>
-            <h2 class="section-title text-reveal" id="features-heading" data-i18n="why_choose">Mengapa Memilih PBSI UMMaumere?</h2>
+            <h2 class="section-title text-reveal" id="features-heading" data-i18n="why_choose">Mengapa Memilih PBSING UNIMOF?</h2>
             <p class="section-subtitle fade-in-up" data-i18n="why_desc">Keunggulan yang menjadikan kami pusat unggulan bahasa dan sastra di Indonesia Timur.</p>
         </header>
         <div class="features-grid" role="list">
@@ -278,7 +278,7 @@ $current_lang = $_COOKIE['pbsi_lang'] ?? 'id';
                 <span data-i18n="profile_video">VIDEO PROFIL</span>
             </span>
             <h2 class="section-title text-reveal" id="video-heading" style="color:#fff;" data-i18n="watch_profile">Saksikan Profil Kami</h2>
-            <p class="section-subtitle fade-in-up" style="color:#bdc3c7;" data-i18n="watch_desc">Kenali lebih dekat keluarga besar PBSI UMMaumere dalam satu menit.</p>
+            <p class="section-subtitle fade-in-up" style="color:#bdc3c7;" data-i18n="watch_desc">Kenali lebih dekat keluarga besar PBSING UNIMOF dalam satu menit.</p>
         </header>
         <div class="home-video-wrapper reveal-up">
             <div class="home-video-placeholder"
@@ -407,7 +407,7 @@ $current_lang = $_COOKIE['pbsi_lang'] ?? 'id';
                 <span data-i18n="testimonial">TESTIMONI</span>
             </span>
             <h2 class="section-title text-reveal" id="testi-heading" data-i18n="testi_title">Kata Mereka, Alumni Kami</h2>
-            <p class="section-subtitle fade-in-up" data-i18n="testi_desc">Jejak sukses lulusan PBSI di dunia kerja nasional dan internasional.</p>
+            <p class="section-subtitle fade-in-up" data-i18n="testi_desc">Jejak sukses lulusan PBSING di dunia kerja nasional dan internasional.</p>
         </header>
         <div class="hx-testi-marquee" role="region" aria-label="Testimoni alumni">
             <div class="hx-testi-track">
@@ -448,7 +448,7 @@ $current_lang = $_COOKIE['pbsi_lang'] ?? 'id';
                 <i class="fa-solid fa-bullhorn" aria-hidden="true"></i>
                 <span data-i18n="pmb_open">PMB 2026/2027 DIBUKA</span>
             </span>
-            <h2 id="cta-heading" class="text-reveal" data-i18n="join_family">Bergabunglah dengan Keluarga Besar PBSI</h2>
+            <h2 id="cta-heading" class="text-reveal" data-i18n="join_family">Bergabunglah dengan Keluarga Besar PBSING</h2>
             <p class="fade-in-up" data-i18n="join_desc">Raih masa depan gemilang sebagai penerjemah, pengajar, sastrawan, atau diplomat global bersama kami.</p>
             <div class="home-cta-buttons">
                 <a href="<?= PUBLIC_URL ?>kontak.php" class="btn-primary magnetic-btn" data-cursor="pointer" data-analytics="cta-register" data-i18n="register_now">
@@ -1002,11 +1002,11 @@ html[lang="en"] h3[data-lang="en"] {
             'full_profile': 'Full Profile',
             'visi_misi': 'Vision & Mission',
             'our_strength': 'OUR STRENGTHS',
-            'why_choose': 'Why Choose PBSI UMMaumere?',
+            'why_choose': 'Why Choose PBSING UNIMOF?',
             'why_desc': 'The advantages that make us the center of excellence for language and literature in Eastern Indonesia.',
             'profile_video': 'PROFILE VIDEO',
             'watch_profile': 'Watch Our Profile',
-            'watch_desc': 'Get to know the PBSI UMMaumere family in one minute.',
+            'watch_desc': 'Get to know the PBSING UNIMOF family in one minute.',
             'click_play': 'Click to Play',
             'latest_news': 'LATEST NEWS',
             'news_title': 'Latest News & Events',
@@ -1018,9 +1018,9 @@ html[lang="en"] h3[data-lang="en"] {
             'view_all_lecturers': 'View All Lecturers',
             'testimonial': 'TESTIMONIALS',
             'testi_title': 'What Our Alumni Say',
-            'testi_desc': 'Success stories of PBSI graduates in national and international careers.',
+            'testi_desc': 'Success stories of PBSING graduates in national and international careers.',
             'pmb_open': 'ADMISSIONS 2026/2027 OPEN',
-            'join_family': 'Join the PBSI Family',
+            'join_family': 'Join the PBSING Family',
             'join_desc': 'Achieve a brilliant future as a translator, educator, literary scholar, or global diplomat with us.',
             'register_now': 'Register Now',
             'view_curriculum': 'View Curriculum'
