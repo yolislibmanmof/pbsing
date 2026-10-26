@@ -28,8 +28,8 @@ foreach ($required_cols as $col => $def) {
     }
 }
 
-// ===== HANDLE DELETE =====
-if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+// ===== HANDLE DELETE =====if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['delete'], $_SESSION['csrf_token']), $_GET['token'])) {
+    if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['delete'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['delete'];
     $stmt = $pdo->prepare("SELECT judul FROM $table WHERE id = ?");
     $stmt->execute([$id]);
@@ -44,7 +44,7 @@ if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['cs
 }
 
 // ===== HANDLE DUPLICATE =====
-if (isset($_GET['duplicate']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['duplicate']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['duplicate'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['duplicate'];
     $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
     $stmt->execute([$id]);
@@ -155,7 +155,7 @@ foreach ($items as $it) {
     $end = $it['tanggal_selesai'] ?: $start;
     $status_raw = $it['status'] ?? 'akan_datang';
     
-    if ($status_raw === 'dibatalkan') {
+    if ($status_raw === 'batal') {
         $cancelled_count++;
     } elseif ($start && $start > $now) {
         $upcoming_count++;
@@ -167,7 +167,7 @@ foreach ($items as $it) {
 }
 
 // Group by status
-$by_status = ['akan_datang'=>[], 'berlangsung'=>[], 'selesai'=>[], 'dibatalkan'=>[]];
+$by_status = ['akan_datang'=>[], 'berlangsung'=>[], 'selesai'=>[], 'batal'=>[]];
 foreach ($items as $it) {
     $s = $it['status'] ?? 'akan_datang';
     if (!isset($by_status[$s])) $by_status[$s] = [];
@@ -183,7 +183,7 @@ $status_info = [
     'akan_datang' => ['label'=>'Akan Datang', 'color'=>'sky', 'icon'=>'fa-clock'],
     'berlangsung' => ['label'=>'Berlangsung', 'color'=>'emerald', 'icon'=>'fa-play'],
     'selesai'     => ['label'=>'Selesai', 'color'=>'grey', 'icon'=>'fa-circle-check'],
-    'dibatalkan'  => ['label'=>'Dibatalkan', 'color'=>'danger', 'icon'=>'fa-circle-xmark']
+    'batal'  => ['label'=>'batal', 'color'=>'danger', 'icon'=>'fa-circle-xmark']
 ];
 
 // Tipe options
@@ -191,7 +191,7 @@ $tipe_options = ['Seminar', 'Ujian', 'Wisuda', 'Workshop', 'Kuliah Tamu', 'Rapat
 
 // Form data
 $data = ['id'=>0, 'judul'=>'', 'deskripsi'=>'', 'tanggal_mulai'=>date('Y-m-d\TH:i'), 'tanggal_selesai'=>'', 'lokasi'=>'', 'tipe'=>'Seminar', 'status'=>'auto', 'link'=>'', 'urutan'=>1, 'aktif'=>1];
-if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['edit'], $_SESSION['csrf_token']), $_GET['token'])) {
     $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
     $stmt->execute([(int)$_GET['edit']]);
     $fetched = $stmt->fetch();
@@ -332,7 +332,7 @@ ob_start();
 .status-group-header.sts-akan_datang { background: linear-gradient(90deg, rgba(135,206,235,.12), transparent); border-left-color: var(--sky-blue); }
 .status-group-header.sts-berlangsung { background: linear-gradient(90deg, rgba(46,139,87,.12), transparent); border-left-color: var(--success); }
 .status-group-header.sts-selesai { background: linear-gradient(90deg, rgba(149,165,166,.12), transparent); border-left-color: #95a5a6; }
-.status-group-header.sts-dibatalkan { background: linear-gradient(90deg, rgba(231,76,60,.12), transparent); border-left-color: var(--danger); }
+.status-group-header.sts-batal { background: linear-gradient(90deg, rgba(231,76,60,.12), transparent); border-left-color: var(--danger); }
 .status-group-header td {
     padding: 12px 16px;
     font-weight: 800;
@@ -361,7 +361,7 @@ ob_start();
 .sts-badge.akan_datang { background: rgba(135,206,235,0.15); color: var(--sky-blue); }
 .sts-badge.berlangsung { background: rgba(46,139,87,0.15); color: var(--success); }
 .sts-badge.selesai { background: rgba(149,165,166,0.15); color: #95a5a6; }
-.sts-badge.dibatalkan { background: rgba(231,76,60,0.15); color: var(--danger); }
+.sts-badge.batal { background: rgba(231,76,60,0.15); color: var(--danger); }
 
 /* ===== DATE BADGE (mirip public) ===== */
 .date-badge {
@@ -486,7 +486,7 @@ ob_start();
 .preview-agenda-card.sts-akan_datang { border-left-color: var(--sky-blue); }
 .preview-agenda-card.sts-berlangsung { border-left-color: var(--success); }
 .preview-agenda-card.sts-selesai { border-left-color: #95a5a6; }
-.preview-agenda-card.sts-dibatalkan { border-left-color: var(--danger); }
+.preview-agenda-card.sts-batal { border-left-color: var(--danger); }
 
 .preview-date-badge {
     background: linear-gradient(135deg, var(--crimson), var(--crimson-light));
@@ -499,7 +499,7 @@ ob_start();
 .preview-date-badge.sts-akan_datang { background: linear-gradient(135deg, var(--sky-blue-dark), var(--sky-blue)); }
 .preview-date-badge.sts-berlangsung { background: linear-gradient(135deg, var(--success), #27ae60); }
 .preview-date-badge.sts-selesai { background: linear-gradient(135deg, #95a5a6, #7f8c8d); }
-.preview-date-badge.sts-dibatalkan { background: linear-gradient(135deg, var(--danger), #c0392b); }
+.preview-date-badge.sts-batal { background: linear-gradient(135deg, var(--danger), #c0392b); }
 .preview-date-badge .day { display: block; font-size: 1.6rem; font-weight: 900; line-height: 1; }
 .preview-date-badge .month { display: block; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: .2rem; }
 .preview-date-badge .year { display: block; font-size: .6rem; opacity: .8; margin-top: .1rem; }
@@ -572,7 +572,7 @@ ob_start();
 .preview-status-badge.sts-akan_datang { background: rgba(135,206,235,.15); color: #0077b6; }
 .preview-status-badge.sts-berlangsung { background: rgba(46,139,87,.15); color: var(--success); }
 .preview-status-badge.sts-selesai { background: rgba(149,165,166,.15); color: #7f8c8d; }
-.preview-status-badge.sts-dibatalkan { background: rgba(231,76,60,.15); color: var(--danger); }
+.preview-status-badge.sts-batal { background: rgba(231,76,60,.15); color: var(--danger); }
 .preview-cal-btn {
     display: inline-flex;
     align-items: center;
@@ -656,6 +656,11 @@ ob_start();
     .agenda-filter-bar { grid-template-columns: 1fr; }
 }
 @media (max-width: 576px) { .agenda-stats-grid { grid-template-columns: 1fr; } }
+/* Sinkronisasi warna date-badge dengan nilai status database */
+.date-badge.akan_datang { background: linear-gradient(135deg, var(--sky-blue-dark), var(--sky-blue)); box-shadow: 0 4px 10px rgba(135,206,235,.3); }
+.date-badge.berlangsung { background: linear-gradient(135deg, var(--success), #27ae60); box-shadow: 0 4px 10px rgba(46,139,87,.3); }
+.date-badge.selesai { background: linear-gradient(135deg, #95a5a6, #7f8c8d); box-shadow: 0 4px 10px rgba(149,165,166,.2); }
+.date-badge.batal { background: linear-gradient(135deg, var(--danger), #c0392b); box-shadow: 0 4px 10px rgba(231,76,60,.3); }
 </style>
 
 <?php if (isset($_GET['msg'])): 
@@ -734,7 +739,7 @@ ob_start();
             'akan_datang' => $upcoming_count,
             'berlangsung' => $ongoing_count,
             'selesai'     => $completed_count,
-            'dibatalkan'  => $cancelled_count
+            'batal'  => $cancelled_count
         ];
         foreach ($status_info as $sKey => $sInfo):
             $count = $status_counts[$sKey] ?? 0;
@@ -849,7 +854,7 @@ ob_start();
                                 <option value="akan_datang" <?= ($data['status'] ?? '')==='akan_datang'?'selected':'' ?>>🕒 Akan Datang</option>
                                 <option value="berlangsung" <?= ($data['status'] ?? '')==='berlangsung'?'selected':'' ?>>🔴 Berlangsung</option>
                                 <option value="selesai" <?= ($data['status'] ?? '')==='selesai'?'selected':'' ?>>✅ Selesai</option>
-                                <option value="dibatalkan" <?= ($data['status'] ?? '')==='dibatalkan'?'selected':'' ?>>❌ Dibatalkan</option>
+                                <option value="batal" <?= ($data['status'] ?? '')==='batal'?'selected':'' ?>>❌ batal</option>
                             </select>
                         </div>
                     </div>
@@ -970,13 +975,13 @@ document.addEventListener('DOMContentLoaded', function() {
         'akan_datang': 'Akan Datang',
         'berlangsung': 'Berlangsung',
         'selesai': 'Selesai',
-        'dibatalkan': 'Dibatalkan'
+        'batal': 'Batal'
     };
     const statusIcons = {
         'akan_datang': 'fa-clock',
         'berlangsung': 'fa-play',
         'selesai': 'fa-circle-check',
-        'dibatalkan': 'fa-circle-xmark'
+        'batal': 'fa-circle-xmark'
     };
     
     function calculateStatus(startStr, endStr) {

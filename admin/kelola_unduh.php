@@ -86,7 +86,7 @@ function file_icon($path) {
 }
 
 // ===== HANDLE DELETE =====
-if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['delete'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['delete'];
     $tab = $_GET['tab'] === 'rps' ? 'rps_kurikulum' : 'unduh';
     $stmt = $pdo->prepare("SELECT file_path, judul, mata_kuliah FROM `$tab` WHERE id = ?");
@@ -104,7 +104,7 @@ if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['cs
 }
 
 // ===== HANDLE DUPLICATE =====
-if (isset($_GET['duplicate']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['duplicate']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['duplicate'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['duplicate'];
     $tab = $_GET['tab'] === 'rps' ? 'rps_kurikulum' : 'unduh';
     $stmt = $pdo->prepare("SELECT * FROM `$tab` WHERE id = ?");

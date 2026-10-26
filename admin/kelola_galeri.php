@@ -23,7 +23,7 @@ foreach ($required_cols as $col => $def) {
 }
 
 // ===== HANDLE DELETE =====
-if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['delete'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['delete'];
     $stmt = $pdo->prepare("SELECT file, tipe, judul FROM $table WHERE id = ?");
     $stmt->execute([$id]);
@@ -41,7 +41,7 @@ if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['cs
 }
 
 // ===== HANDLE DUPLICATE =====
-if (isset($_GET['duplicate']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['duplicate']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['duplicate'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['duplicate'];
     $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
     $stmt->execute([$id]);
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csrf_token']) && hash
     $tanggal = sanitize($_POST['tanggal']);
     $deskripsi = sanitize($_POST['deskripsi']);
     $urutan = (int)$_POST['urutan'];
-    $file_path = $data['file'] ?? '';
+    $file_path = sanitize($_POST['old_file'] ?? '');
     $video_url = '';
 
     // Validasi
@@ -162,7 +162,7 @@ sort($unique_cats);
 
 // Form data
 $data = ['id'=>0, 'judul'=>'', 'kategori'=>'Dokumentasi', 'file'=>'', 'tipe'=>'image', 'tanggal'=>date('Y-m-d'), 'urutan'=>1, 'deskripsi'=>''];
-if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['edit'], $_SESSION['csrf_token']), $_GET['token'])) {
     $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
     $stmt->execute([(int)$_GET['edit']]);
     $fetched = $stmt->fetch();
@@ -814,6 +814,7 @@ ob_start();
         <form method="POST" enctype="multipart/form-data" id="galeriForm">
             <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
             <input type="hidden" name="id" value="<?= $data['id'] ?>">
+            <input type="hidden" name="old_file" value="<?= htmlspecialchars((string)($data['file'] ?? '')) ?>">
             
             <div class="galeri-form-grid">
                 <!-- FORM FIELDS -->

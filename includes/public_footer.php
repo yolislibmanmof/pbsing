@@ -1,7 +1,12 @@
 <?php
 if (!function_exists('get_all')) { require_once __DIR__ . '/functions.php'; }
 $setting = get_all('settings', 'id = 1')[0];
-$all_menus = get_all('menus', 'aktif = 1 AND parent_id = 0', 'urutan ASC');
+$navbar_config = require __DIR__ . '/navbar_menu.php';
+$all_menus = [];
+foreach ($navbar_config as $__item) {
+if (!empty($__item['hidden'])) continue;
+$all_menus[] = ['label' => $__item['label'], 'url' => $__item['url'], 'icon' => $__item['icon'] ?? 'fa-solid fa-circle'];
+}
 $latest_news = get_all('berita', 'status = 1', 'tanggal DESC LIMIT 3');
 
 // Parse social media dari JSON

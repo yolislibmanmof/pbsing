@@ -26,7 +26,7 @@ foreach ($required_cols as $col => $def) {
 }
 
 // ===== HANDLE DELETE =====
-if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['delete'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['delete'];
     $stmt = $pdo->prepare("SELECT judul, gambar FROM $table WHERE id = ?");
     $stmt->execute([$id]);
@@ -44,7 +44,7 @@ if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['cs
 }
 
 // ===== HANDLE DUPLICATE =====
-if (isset($_GET['duplicate']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['duplicate']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['duplicate'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['duplicate'];
     $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
     $stmt->execute([$id]);
@@ -185,7 +185,7 @@ $data = [
     'seo_keywords'=>'', 'template'=>'default', 'show_in_menu'=>0, 'show_in_footer'=>0
 ];
 
-if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['edit'], $_SESSION['csrf_token']), $_GET['token'])) {
     $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
     $stmt->execute([(int)$_GET['edit']]);
     $fetched = $stmt->fetch();

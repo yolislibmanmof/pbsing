@@ -9,7 +9,7 @@ $current_page = 'kurikulum';
 $table = 'mata_kuliah';
 
 // ===== HANDLE DELETE =====
-if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['delete'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['delete'];
     $pdo->prepare("DELETE FROM $table WHERE id = ?")->execute([$id]);
     $pdo->prepare("INSERT INTO admin_logs (user_id, user_name, action, detail, ip) VALUES (?, ?, 'DELETE_MK', 'Menghapus MK ID $id', ?)")
@@ -19,7 +19,7 @@ if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['cs
 }
 
 // ===== HANDLE DUPLICATE =====
-if (isset($_GET['duplicate']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['duplicate']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['duplicate'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['duplicate'];
     $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
     $stmt->execute([$id]);
@@ -99,7 +99,7 @@ foreach ($items as $m) {
 
 // Form data
 $data = ['id'=>0, 'kode_mk'=>'', 'nama_mk'=>'', 'semester'=>1, 'sks'=>2, 'kategori'=>'Wajib', 'deskripsi'=>'', 'urutan'=>1];
-if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['edit'], $_SESSION['csrf_token']), $_GET['token'])) {
     $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
     $stmt->execute([(int)$_GET['edit']]);
     $fetched = $stmt->fetch();

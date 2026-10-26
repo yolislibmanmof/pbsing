@@ -3249,3 +3249,34 @@ img {
     [data-theme="light"] .dropdown-icon { color: var(--crimson) !important; }
     [data-theme="light"] .dropdown li a:hover .dropdown-icon { color: var(--sky-blue-dark) !important; }
 }
+
+/* =====================================================================
+   29. PATCH v2.4 — NAVBAR ANTI-WRAP & COMPACT RESPONSIVE
+   ===================================================================== */
+.nav-link, .nav-cta { white-space: nowrap; }
+.nav-link span, .nav-cta span { white-space: nowrap; display: inline-block; }
+.nav-brand { flex-shrink: 0; }
+.nav-menu { flex-shrink: 1; min-width: 0; }
+
+/* Layar sedang (laptop 1280-1400px): rapatkan jarak */
+@media (min-width: 901px) and (max-width: 1400px) {
+    .nav-container { max-width: 100%; padding: 0 1.2rem; }
+    .nav-menu { gap: 1.5rem; }
+    .nav-link { font-size: .9rem; }
+    .nav-cta { padding: .6rem 1.3rem; font-size: .85rem; }
+    .nav-actions { margin-left: .5rem; gap: .4rem; }
+}
+
+/* Layar kecil (1000-1200px): sembunyikan pemindah bahasa agar lega */
+@media (min-width: 901px) and (max-width: 1200px) {
+    .nav-menu { gap: 1.1rem; }
+    .lang-switcher { display: none; }
+    .nav-search-trigger .search-hint { display: none; }
+}
+
+/* Sangat sempit (901-1050px): icon menu disembunyikan, teks dikecilkan */
+@media (min-width: 901px) and (max-width: 1050px) {
+    .nav-icon { display: none; }
+    .nav-link span { font-size: .84rem; }
+    .nav-cta span { font-size: .8rem; }
+}

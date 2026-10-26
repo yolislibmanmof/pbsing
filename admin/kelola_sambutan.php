@@ -604,8 +604,10 @@ ob_start();
                             <label style="display:block; margin-bottom:.5rem; font-weight:600;">Foto Kaprodi</label>
                             <div class="profile-upload-wrapper">
                                 <div class="profile-preview" id="profilePreview">
-                                    <?php if (!empty($data['foto'])): ?>
-                                        <img src="../<?= htmlspecialchars($data['foto']) ?>" id="previewImg">
+                                    <?php if (!empty($data['foto'])): 
+                                        $fotoSrc = filter_var($data['foto'], FILTER_VALIDATE_URL) ? $data['foto'] : '../' . $data['foto'];
+                                    ?>
+                                        <img src="<?= htmlspecialchars($fotoSrc) ?>" id="previewImg" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder-icon').style.display='flex';">
                                     <?php else: ?>
                                         <i class="fa-solid fa-user-tie placeholder-icon"></i>
                                     <?php endif; ?>
@@ -715,8 +717,13 @@ ob_start();
                                 <div class="preview-deco-1"></div>
                                 <div class="preview-deco-2"></div>
                                 <div class="preview-photo" id="prevPhoto">
-                                    <img src="<?= !empty($data['foto']) ? '../'.htmlspecialchars($data['foto']) : '' ?>" id="prevPhotoImg" style="<?= empty($data['foto']) ? 'display:none;' : '' ?>">
-                                    <i class="fa-solid fa-user-tie" id="prevPhotoIcon" style="<?= !empty($data['foto']) ? 'display:none;' : '' ?>"></i>
+                                    <img src="<?= !empty($data['foto']) ? '../'.htmlspecialchars($data['foto']) : '' ?>" id="prevPhotoImg" style="<?= empty($data['foto']) ? 'display:none;' : '' ?>"><?php 
+                                    $prevFotoSrc = '';
+                                    if (!empty($data['foto'])) {
+                                        $prevFotoSrc = filter_var($data['foto'], FILTER_VALIDATE_URL) ? $data['foto'] : '../' . $data['foto'];
+                                    }
+                                    ?>
+<img src="<?= htmlspecialchars($prevFotoSrc) ?>" id="prevPhotoImg" style="<?= empty($data['foto']) ? 'display:none;' : '' ?>" onerror="this.style.display='none'; document.getElementById('prevPhotoIcon').style.display='flex';">
                                 </div>
                             </div>
                             <div class="preview-content">

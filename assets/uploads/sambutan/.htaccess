@@ -1,0 +1,5 @@
+# Apache 2.4 SAFE - blokir eksekusi script, izinkan file media
+Options -Indexes
+<FilesMatch "\.(?i:php|phtml|php3|php4|php5|pl|py|cgi|sh|jsp|asp)$">
+    Require all denied
+</FilesMatch>

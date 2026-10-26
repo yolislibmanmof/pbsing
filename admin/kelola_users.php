@@ -32,7 +32,7 @@ foreach ($required_cols as $col => $def) {
 }
 
 // ===== HANDLE DELETE (Dengan CSRF & Proteksi Diri) =====
-if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['delete'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['delete'];
     
     if ($id == $_SESSION['admin_id']) {
@@ -197,7 +197,7 @@ $active_count = count(array_filter($items, fn($u) => ($u['status'] ?? 1) == 1));
 
 // Form data
 $data = ['id'=>0, 'nama'=>'', 'username'=>'', 'email'=>'', 'role'=>'admin', 'status'=>1, 'avatar'=>''];
-if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['edit'], $_SESSION['csrf_token']), $_GET['token'])) {
     $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
     $stmt->execute([(int)$_GET['edit']]);
     $fetched = $stmt->fetch();

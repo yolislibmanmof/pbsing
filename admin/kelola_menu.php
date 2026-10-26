@@ -9,7 +9,7 @@ $current_page = 'menu';
 $table = 'menus';
 
 // ===== HANDLE DELETE (Dengan CSRF) =====
-if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['delete'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['delete'];
     $stmt = $pdo->prepare("SELECT label FROM $table WHERE id = ?");
     $stmt->execute([$id]);
@@ -80,7 +80,7 @@ function foreach_menu_options($menus, $selected_id = 0) {
 }
 
 $data = ['id'=>0, 'label'=>'', 'icon'=>'fa-solid fa-circle', 'url'=>'#', 'parent_id'=>0, 'urutan'=>1, 'aktif'=>1];
-if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['edit'], $_SESSION['csrf_token']), $_GET['token'])) {
     $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
     $stmt->execute([(int)$_GET['edit']]);
     $fetched = $stmt->fetch();

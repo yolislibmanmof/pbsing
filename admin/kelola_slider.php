@@ -8,9 +8,17 @@ require_login();
 $page_title = 'Kelola Slider / Hero Banner';
 $current_page = 'slider';
 $table = 'slider_video';
+// ===== AUTO-MIGRATION: pastikan kolom badge_style & cta_icon ada =====
+$__cols = $pdo->query("SHOW COLUMNS FROM $table")->fetchAll(PDO::FETCH_COLUMN);
+if (!in_array('badge_style', $__cols)) {
+    $pdo->exec("ALTER TABLE $table ADD COLUMN badge_style varchar(20) NOT NULL DEFAULT 'crimson' AFTER badge");
+}
+if (!in_array('cta_icon', $__cols)) {
+    $pdo->exec("ALTER TABLE $table ADD COLUMN cta_icon varchar(50) NOT NULL DEFAULT 'fa-arrow-right' AFTER cta_url");
+}
 
 // ===== HANDLE DELETE =====
-if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['delete'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['delete'];
     $stmt = $pdo->prepare("SELECT file, tipe FROM $table WHERE id = ?");
     $stmt->execute([$id]);
@@ -30,7 +38,7 @@ if (isset($_GET['delete']) && isset($_GET['token']) && hash_equals($_SESSION['cs
 }
 
 // ===== HANDLE DUPLICATE =====
-if (isset($_GET['duplicate']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['duplicate']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['duplicate'], $_SESSION['csrf_token']), $_GET['token'])) {
     $id = (int)$_GET['duplicate'];
     $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
     $stmt->execute([$id]);
@@ -78,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['toggle_status']) && 
     $urutan = (int)$_POST['urutan'];
     $aktif = isset($_POST['aktif']) ? 1 : 0;
     
-    $file_path = $data['file'] ?? '';
+    $file_path = sanitize($_POST['old_file'] ?? '');
     $video_url = '';
 
     if ($tipe === 'image' && !empty($_FILES['file']['name'])) {
@@ -108,12 +116,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['toggle_status']) && 
     }
 
     if (!isset($error)) {
-        $fields = "judul=:judul, subtitle=:subtitle, tipe=:tipe, file=:file, video_url=:video_url, cta_text=:cta_text, cta_url=:cta_url, badge=:badge, urutan=:urutan, aktif=:aktif";
+        $fields = "judul=:judul, subtitle=:subtitle, tipe=:tipe, file=:file, video_url=:video_url, cta_text=:cta_text, cta_url=:cta_url, cta_icon=:cta_icon, badge=:badge, badge_style=:badge_style, urutan=:urutan, aktif=:aktif";
         $params = [
-            ':judul'=>$judul, ':subtitle'=>$subtitle, ':tipe'=>$tipe, 
+            ':judul'=>$judul, ':subtitle'=>$subtitle, ':tipe'=>$tipe,
             ':file'=>$file_path, ':video_url'=>$video_url,
-            ':cta_text'=>$cta_text, ':cta_url'=>$cta_url, 
-            ':badge'=>$badge, ':urutan'=>$urutan, ':aktif'=>$aktif
+            ':cta_text'=>$cta_text, ':cta_url'=>$cta_url, ':cta_icon'=>$cta_icon,
+            ':badge'=>$badge, ':badge_style'=>$badge_style,
+            ':urutan'=>$urutan, ':aktif'=>$aktif
         ];
         
         if ($id > 0) {
@@ -151,7 +160,7 @@ $data = [
     'badge'=>'', 'badge_style'=>'crimson', 'urutan'=>1, 'aktif'=>1
 ];
 
-if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+if (isset($_GET['edit']) && isset($_GET['token']) && hash_equals(hash_hmac('sha256', (int)$_GET['edit'], $_SESSION['csrf_token']), $_GET['token'])) {
     $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
     $stmt->execute([(int)$_GET['edit']]);
     $fetched = $stmt->fetch();
@@ -1095,6 +1104,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                     <input type="hidden" name="toggle_status" value="1">
                     <input type="hidden" name="id" value="<?= $item['id'] ?>">
+                    <input type="hidden" name="old_file" value="<?= htmlspecialchars($data['file'] ?? '') ?>">
                     <input type="hidden" name="aktif" value="<?= $item['aktif'] == 1 ? 0 : 1 ?>">
                     <label class="toggle-switch" title="<?= $item['aktif'] == 1 ? 'Nonaktifkan' : 'Aktifkan' ?>">
                         <input type="checkbox" <?= $item['aktif'] == 1 ? 'checked' : '' ?> onchange="this.form.submit()">

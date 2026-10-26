@@ -1,34 +1,44 @@
 <?php
+ob_start();
 require_once '../includes/config.php';
 require_once '../includes/security.php';
 require_once '../includes/functions.php';
 check_ip_security($pdo);
 
-$page_title = 'Pusat Dokumen';
-require_once '../includes/public_header.php';
-
-$setting = get_all('settings', 'id = 1')[0];
-$current_lang = $_COOKIE['pbsi_lang'] ?? 'id';
-
-// Handle download increment
+// ===== HANDLE DOWNLOAD — WAJIB dijalankan sebelum HTML apa pun =====
 if (isset($_GET['download'])) {
     $id = (int)$_GET['download'];
     $stmt = $pdo->prepare("SELECT filename FROM dokumen WHERE id = ? AND status = 'aktif'");
     $stmt->execute([$id]);
     $doc = $stmt->fetch();
     if ($doc && !empty($doc['filename'])) {
-        $pdo->prepare("UPDATE dokumen SET downloads = downloads + 1 WHERE id = ?")->execute([$id]);
         $file_path = __DIR__ . '/../' . $doc['filename'];
         if (file_exists($file_path)) {
+            // Catat unduhan
+            $pdo->prepare("UPDATE dokumen SET downloads = downloads + 1 WHERE id = ?")->execute([$id]);
+            // BUANG seluruh buffer HTML (preloader/navbar) agar header benar-benar bersih
+            while (ob_get_level() > 0) { ob_end_clean(); }
+            // Kirim header file binary
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
+            header('Content-Transfer-Encoding: binary');
+            header('Cache-Control: must-revalidate, no-transform');
+            header('Pragma: public');
+            header('Expires: 0');
             header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
             header('Content-Length: ' . filesize($file_path));
             readfile($file_path);
             exit;
         }
     }
+    // Jika file tidak ditemukan/tidak aktif → lanjut渲染 halaman normal
 }
+
+$page_title = 'Pusat Dokumen';
+require_once '../includes/public_header.php';
+
+$setting = get_all('settings', 'id = 1')[0];
+$current_lang = $_COOKIE['pbsi_lang'] ?? 'id';
 
 // Fetch documents with filter
 $kategori = sanitize($_GET['kategori'] ?? 'all');

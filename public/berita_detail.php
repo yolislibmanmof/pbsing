@@ -64,9 +64,6 @@ $publishedDisplay = $b ? date('d F Y', strtotime($b['tanggal'])) : '';
     <div class="reading-progress-bar"></div>
 </div>
 
-<!-- Skip Link -->
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
 <?php if (!$b): ?>
 <!-- 404 NOT FOUND -->
 <main id="main-content" role="main">
@@ -88,6 +85,7 @@ $publishedDisplay = $b ? date('d F Y', strtotime($b['tanggal'])) : '';
         </div>
     </section>
 </main>
+
 
 <style>
 .error-404 {
@@ -432,6 +430,192 @@ $publishedDisplay = $b ? date('d F Y', strtotime($b['tanggal'])) : '';
 
 <!-- Inline Styles for Berita Detail -->
 <style>
+
+/* ============================================================
+   DARK MODE — BERITA DETAIL
+   Responsif terhadap atribut data-theme="dark" di <html>
+============================================================ */
+
+/* === Body & Wrapper Utama === */
+html[data-theme="dark"] .detail-body-wrapper { background: #0f0f1a; }
+html[data-theme="dark"] .back-cta { background: #0a0a14; }
+html[data-theme="dark"] .related-section { background: #0a0a14; }
+
+/* === Breadcrumb === */
+html[data-theme="dark"] .detail-breadcrumb {
+    background: #1a1a2e;
+    border-bottom-color: #2a2a3e;
+}
+html[data-theme="dark"] .detail-breadcrumb a { color: rgba(255,255,255,0.7); }
+html[data-theme="dark"] .detail-breadcrumb a:hover { color: var(--sky-blue); }
+html[data-theme="dark"] .detail-breadcrumb span { color: rgba(255,255,255,0.4); }
+html[data-theme="dark"] .detail-breadcrumb span[aria-current="page"] { color: var(--crimson); }
+
+/* === Share Bar (Sticky Kiri) === */
+html[data-theme="dark"] .share-bar {
+    background: #1a1a2e;
+    border-color: rgba(255,255,255,0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+html[data-theme="dark"] .share-label { color: rgba(255,255,255,0.6); }
+html[data-theme="dark"] .share-btn {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+html[data-theme="dark"] .share-btn:hover { color: #fff; }
+
+/* === Isi Artikel (Typography) === */
+html[data-theme="dark"] .detail-content { color: rgba(255,255,255,0.88); }
+html[data-theme="dark"] .detail-content h2,
+html[data-theme="dark"] .detail-content h3,
+html[data-theme="dark"] .detail-content h4,
+html[data-theme="dark"] .detail-content strong { color: #fff; }
+html[data-theme="dark"] .detail-content a { color: var(--sky-blue); }
+html[data-theme="dark"] .detail-content a:hover { color: #fff; }
+html[data-theme="dark"] .detail-content blockquote {
+    background: rgba(138,21,56,0.08);
+    border-left-color: var(--crimson);
+    color: rgba(255,255,255,0.85);
+}
+html[data-theme="dark"] .detail-content img {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    filter: brightness(0.92);
+}
+html[data-theme="dark"] .detail-content pre,
+html[data-theme="dark"] .detail-content code {
+    background: #0a0a14;
+    color: var(--sky-blue);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+html[data-theme="dark"] .detail-content pre { background: #050510; }
+html[data-theme="dark"] .detail-content ul li,
+html[data-theme="dark"] .detail-content ol li { color: rgba(255,255,255,0.85); }
+
+/* === Tags === */
+html[data-theme="dark"] .detail-tags { border-top-color: rgba(255,255,255,0.08); }
+html[data-theme="dark"] .tags-label { color: rgba(255,255,255,0.7); }
+html[data-theme="dark"] .tag-item {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.85);
+    border-color: rgba(255,255,255,0.1);
+}
+html[data-theme="dark"] .tag-item:hover {
+    background: var(--crimson);
+    color: #fff;
+    border-color: var(--crimson);
+}
+
+/* === Author Card === */
+html[data-theme="dark"] .author-card {
+    background: linear-gradient(135deg, #1a1a2e, #141420);
+    border-color: rgba(255,255,255,0.08);
+}
+html[data-theme="dark"] .author-label { color: rgba(255,255,255,0.6); }
+html[data-theme="dark"] .author-info h4 { color: #fff; }
+html[data-theme="dark"] .author-info p { color: rgba(255,255,255,0.7); }
+
+/* === Article Navigation (Prev/Next) === */
+html[data-theme="dark"] .article-nav-item {
+    background: #1a1a2e;
+    border-color: rgba(255,255,255,0.08);
+}
+html[data-theme="dark"] .article-nav-item:hover {
+    border-color: var(--crimson);
+    background: #22223a;
+}
+html[data-theme="dark"] .nav-label { color: var(--sky-blue); }
+html[data-theme="dark"] .nav-title { color: #fff; }
+
+/* === Sidebar Cards === */
+html[data-theme="dark"] .sidebar-card {
+    background: #1a1a2e;
+    border-color: rgba(255,255,255,0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+html[data-theme="dark"] .sidebar-card h3 {
+    color: #fff;
+    border-bottom-color: rgba(255,255,255,0.1);
+}
+html[data-theme="dark"] .info-list li { border-bottom-color: rgba(255,255,255,0.08); }
+html[data-theme="dark"] .info-label { color: rgba(255,255,255,0.6); }
+html[data-theme="dark"] .info-value { color: #fff; }
+
+/* === Table of Contents === */
+html[data-theme="dark"] .toc a { color: rgba(255,255,255,0.7); }
+html[data-theme="dark"] .toc a:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--crimson);
+}
+html[data-theme="dark"] .toc a.active {
+    background: rgba(138,21,56,0.15);
+    color: var(--crimson);
+}
+html[data-theme="dark"] .toc-empty { color: rgba(255,255,255,0.4); }
+
+/* === Related News Cards === */
+html[data-theme="dark"] .related-card {
+    background: #1a1a2e;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.4);
+}
+html[data-theme="dark"] .related-card:hover {
+    box-shadow: 0 20px 50px rgba(138,21,56,0.25);
+    border-color: var(--crimson);
+}
+html[data-theme="dark"] .related-body h3 { color: #fff; }
+html[data-theme="dark"] .related-date { color: rgba(255,255,255,0.5); }
+html[data-theme="dark"] .news-cat {
+    color: var(--crimson);
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+/* === Section Headings === */
+html[data-theme="dark"] .section-title { color: #fff; }
+html[data-theme="dark"] .section-subtitle { color: rgba(255,255,255,0.7); }
+
+/* === Tombol Back to News === */
+html[data-theme="dark"] .btn-back-news {
+    background: #1a1a2e;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+html[data-theme="dark"] .btn-back-news:hover {
+    background: var(--crimson);
+    border-color: var(--crimson);
+}
+
+/* === Halaman 404 === */
+html[data-theme="dark"] .error-404 {
+    background: linear-gradient(135deg, #0f0f1a, #141420);
+}
+html[data-theme="dark"] .error-content h1 { color: #fff; }
+html[data-theme="dark"] .error-content p { color: rgba(255,255,255,0.7); }
+
+/* === Perbaikan Skip Link (agar tidak menonjol di pojok kiri atas) === */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+.skip-link:focus {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: auto;
+    height: auto;
+    padding: .8rem 1.2rem;
+    background: var(--crimson);
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 700;
+    z-index: 9999;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
 /* Reading Progress */
 .reading-progress {
     position: fixed;
